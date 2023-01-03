@@ -1,0 +1,25 @@
+#champsText
+{
+        -fx-background-color: yellow;
+    /*-fx-text-fill : blue;
+    -fx-fill : red;*/
+}
+
+#textformes1
+{
+    -fx-font-size: 20px;
+}
+
+#textformes2
+{
+    -fx-background-color: gray;
+    /*-fx-text-fill: red;*/
+    -fx-font-size: 20px;
+}
+
+
+
+.couleurTextMotsTaper
+{
+    -fx-fill : white;
+}
