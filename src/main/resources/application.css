@@ -1,10 +1,3 @@
-#champsText
-{
-        -fx-background-color: yellow;
-    /*-fx-text-fill : blue;
-    -fx-fill : red;*/
-}
-
 #textformes1
 {
     -fx-font-size: 20px;
@@ -12,14 +5,33 @@
 
 #textformes2
 {
-    -fx-background-color: gray;
+    /*-fx-background-color: gray;*/
     /*-fx-text-fill: red;*/
     -fx-font-size: 20px;
 }
 
 
 
-.couleurTextMotsTaper
+.rose
 {
-    -fx-fill : white;
+    -fx-fill : coral ;
+}
+
+.rouge
+{
+    -fx-fill : red;
+}
+
+.vert
+{
+    -fx-fill : green;
+}
+
+
+.highlightedtext
+{
+    /*-fx-background-position: yellow;*/
+    /*-fx-fill : green;*/
+    /*-fx-highlight-fill : yellow;*/
+    -fx-highlight-text-fill : coral;
 }

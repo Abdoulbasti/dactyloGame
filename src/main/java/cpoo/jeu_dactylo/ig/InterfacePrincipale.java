@@ -1,18 +1,33 @@
 package cpoo.jeu_dactylo.ig;
 
 import cpoo.jeu_dactylo.constantes.*;
+import javafx.geometry.Insets;
+import javafx.scene.control.IndexRange;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputControl;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.*;
+import org.fxmisc.richtext.InlineCssTextArea;
 import org.fxmisc.richtext.StyleClassedTextArea;
 import org.fxmisc.richtext.StyledTextArea;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import cpoo.jeu_dactylo.files.*;
 import javafx.scene.paint.Color;
+import org.fxmisc.richtext.model.StyleSpan;
+import org.fxmisc.richtext.model.StyleSpans;
 
 import java.net.URL;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 
 public class InterfacePrincipale extends Application {
 
@@ -26,13 +41,13 @@ public class InterfacePrincipale extends Application {
             VBox root = new VBox();
 
             StyleClassedTextArea textArea1 = new StyleClassedTextArea();
-            StyleClassedTextArea textArea2 = new StyleClassedTextArea();
-            textArea2.replaceText(Paragraphes.PARAGRAPHE_2);
+            InlineCssTextArea textArea2 = new InlineCssTextArea(Paragraphes.PARAGRAPHE_1);
 
             //textArea1.setStyle("-fx-font-size: 20px; -fx-background-color: white; -fx-text-fill: red");
             //textArea2.setStyle("-fx-font-size: 20px; -fx-background-color: gray");
             textArea1.setId("textformes1");
             textArea2.setId("textformes2");
+            //field.setId("textformes3");
 
             textArea1.setPrefSize(280, 280);
             textArea2.setPrefSize(280, 280);
@@ -41,11 +56,15 @@ public class InterfacePrincipale extends Application {
             textArea1.setWrapText(true);
             textArea2.setWrapText(true);
 
-            textArea2.setStyleClass(0, 50, "couleurTextMotsTaper");
+            String yellowBackground = "-rtfx-background-color: yellow;";
+            textArea2.setStyle(0, 9, yellowBackground);
+            textArea2.setStyle(45, 70, yellowBackground);
+            textArea2.setStyle(90, 100, "-fx-fill : red;");
 
 
             root.getChildren().addAll(textArea1, textArea2);
             Scene scene = new Scene(root, 900, 600);
+
 
             URL url = getClass().getResource("/application.css");
             String path = url.toExternalForm();
@@ -81,8 +100,6 @@ public class InterfacePrincipale extends Application {
         Application.launch(args);
     }
 }
-
-
 
 
 

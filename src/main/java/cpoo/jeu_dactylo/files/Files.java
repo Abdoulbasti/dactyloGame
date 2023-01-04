@@ -3,6 +3,7 @@ package cpoo.jeu_dactylo.files;
 import cpoo.jeu_dactylo.constantes.Paragraphes;
 
 import java.util.ArrayDeque;
+import java.util.Arrays;
 import java.util.Queue;
 
 public class Files {
@@ -18,11 +19,17 @@ public class Files {
     * */
     public static String [] chaineReelementTaper = new String[stringsParagraphe.length];
 
+    //Stocke la taille de chaque de chaque mot à sa position
+    final static int [] taillesMots = new int[stringsParagraphe.length];
+
     public static ArrayDeque<String> filePremiere = new ArrayDeque<>(MAX_TAILLE_FILLE_PREMIERE);
     public static ArrayDeque<String> fileSecondaire = new ArrayDeque<>(MAX_TAILLE_FILLE_SECONDAIRE);
     //LesFiles queue = new LesFiles();
 
+    //final static int numeroEspace =
 
+    //Tableau contenat les surplus de chaque qui est censé être taper
+    public static String[] overSizeTableaux = new String[stringsParagraphe.length];
 
     public static void main(String[] args) {
         remplissagePremiereFile(filePremiere);
@@ -34,8 +41,21 @@ public class Files {
         System.out.println(filePremiere.pollFirst());
         System.out.println(filePremiere.pollFirst());
         System.out.println(filePremiere.pollFirst());*/
-        System.out.println(stringsParagraphe[ positionMots -1]);
+        //System.out.println(stringsParagraphe[ positionMots -1]);
 
+        //stockerTaillesMots();
+        //System.out.println(taillesMots[2]);
+        //System.out.println(stringsParagraphe[8]);
+        initialiserTableauxString(chaineReelementTaper);
+        ajouterCaractere(0, 'S');
+        ajouterCaractere(0, 'A');
+        ajouterCaractere(0, 'L');
+        ajouterCaractere(0, 'U');
+        ajouterCaractere(0, 'T');
+        retirerCaractere(0);
+        retirerCaractere(0);
+        ajouterCaractere(0, 'M');
+        System.out.println(chaineReelementTaper[0]);
     }
 
 
@@ -145,5 +165,37 @@ public class Files {
         while (!file.isEmpty()) {
             System.out.println(file.poll());
         }
+    }
+
+
+    //Test ok
+    public static void stockerTaillesMots()
+    {
+
+        for( int i = 0; i<stringsParagraphe.length ; i++)
+        {
+            taillesMots[i] = stringsParagraphe[i].length();
+        }
+    }
+
+
+    //test ok
+    public static void ajouterCaractere(int indiceString, char caractereAjouter)
+    {
+
+        chaineReelementTaper[indiceString] = chaineReelementTaper[indiceString].concat(Character.toString(caractereAjouter));
+    }
+
+    //test ok
+    public static void retirerCaractere(int indiceString)
+    {
+        chaineReelementTaper[indiceString] = chaineReelementTaper[indiceString].substring(0, chaineReelementTaper[indiceString].length() - 1);
+    }
+
+
+    //test ok
+    public static void initialiserTableauxString(String[] tab)
+    {
+        Arrays.fill(tab, "");
     }
 }
