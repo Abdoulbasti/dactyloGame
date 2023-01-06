@@ -8,7 +8,7 @@ import java.util.Queue;
 
 public class Files {
 
-    final static int   MAX_TAILLE_FILLE_PREMIERE = 15;
+    final static  int   MAX_TAILLE_FILLE_PREMIERE = 15;
     final static int   MAX_TAILLE_FILLE_SECONDAIRE = 40;
     public static int positionMots = 0; //La position de depart doit être 0
 

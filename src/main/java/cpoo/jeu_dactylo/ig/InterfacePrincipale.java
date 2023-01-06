@@ -17,16 +17,18 @@ public class InterfacePrincipale extends Application {
 
     public int postionDebut;
     public int postionFin;
+    public static int RETOUR = 13;
+    public static int ESPACE = 32;
     public static int [] taillesDesMots = Files.stockerTaillesMots();
-    public static int debutColorationJaune = 0;
-    public static int finColorationJaune = 0;
+    public static int debutColorationJaune = 0, finColorationJaune = 0;
+    public static int debutColorationRouge = 0, finColorationRouge = 0;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         try
         {
+            Files.initialiserTableauxString(Files.chaineReelementTaper);
             VBox root = new VBox();
-
             StyleClassedTextArea textArea1 = new StyleClassedTextArea();
             InlineCssTextArea textArea2 = new InlineCssTextArea(Paragraphes.PARAGRAPHE_1);
             //textArea1.setStyle("-fx-font-size: 20px; -fx-background-color: white; -fx-text-fill: red");
@@ -42,7 +44,7 @@ public class InterfacePrincipale extends Application {
             textArea1.setWrapText(true);
             textArea2.setWrapText(true);
 
-            gestionArrierePlanTexteCorrecte(textArea1, textArea2);
+            gestionArrierePlanTextes(textArea1, textArea2);
 
             root.getChildren().addAll(textArea1, textArea2);
             Scene scene = new Scene(root, 900, 600);
@@ -77,37 +79,84 @@ public class InterfacePrincipale extends Application {
     }
 
 
-    public void gestionArrierePlanTexteCorrecte(StyleClassedTextArea textArea1, InlineCssTextArea textArea2)
+    public void gestionArrierePlanTextes(StyleClassedTextArea textArea1, InlineCssTextArea textArea2)
     {
-        int[] k ={0};
-        int i = 0;
-        String yellowBackground = "-rtfx-background-color: yellow";
-        debutColorationJaune =0;
-        finColorationJaune = taillesDesMots[0];
-        textArea2.setStyle(debutColorationJaune, finColorationJaune, yellowBackground);
+            String yellowBackground = "-rtfx-background-color: yellow";
+            debutColorationJaune =0;
+            finColorationJaune = taillesDesMots[0];
+            textArea2.setStyle(debutColorationJaune, finColorationJaune, yellowBackground);
 
-        textArea1.setOnKeyTyped(e ->
-        {
-            String s = e.getCharacter();    char c = s.charAt(0);
-            //Récupération de la position du curseur
-            int caretPosition = textArea1.getCaretPosition();
+            String redBackground = "-rtfx-background-color: red";
+            debutColorationRouge =0;
+            finColorationRouge = taillesDesMots[0];
+            textArea2.setStyle(debutColorationJaune, finColorationJaune, redBackground);
 
 
-            ignorerCaractereENTREE(textArea1,c, 13);
-            ignorerCaractereESPACE(textArea1, c, 32,caretPosition);
-            if(Integer.compare(c, 32) == 0)
+            textArea1.setOnKeyTyped(e ->
             {
-                //ignorerEntree(textArea1, c, 32, avantDernierChar);
-                debutColorationJaune    =   debutColorationJaune     +      taillesDesMots[k[0]]+1;
-                finColorationJaune      =   debutColorationJaune     +      taillesDesMots[k[0] +1];
-                textArea2.setStyle(debutColorationJaune, finColorationJaune, yellowBackground);
-                k[0]++;
-                if(k[0] == Files.stringsParagraphe.length-1)
-                {
-                    System.out.println("Limite des mots est atteint !!");
-                }
-            }
-        });
+                    String s = e.getCharacter();    char c = s.charAt(0);
+                    //Récupération de la position du curseur
+                    int caretPosition = textArea1.getCaretPosition();
+
+
+                    ignorerCaractereENTREE(textArea1,c, 13);
+                    ignorerCaractereESPACE(textArea1, c, 32,caretPosition);
+
+                    if(Files.positionMots < Files.stringsParagraphe.length && Integer.compare(c, RETOUR)!=0 && Integer.compare(c, ESPACE)!=0)
+                    {
+                        //Ajouter le caractère a au mot string de la position Files.positionMots
+                        Files.ajouterCaractere(Files.positionMots, c);
+                    }
+
+
+                    int tailleChaineTape = Files.chaineReelementTaper[Files.positionMots].length();
+                    System.out.println(Files.chaineReelementTaper[Files.positionMots]);
+
+
+                    if (tailleChaineTape < Files.stringsParagraphe[Files.positionMots].length())
+                    {
+                        String sousChaineATaper = Files.stringsParagraphe[Files.positionMots].substring(0, tailleChaineTape); //Recuperer
+                        /*
+                          si les sous textes sont les mêmes
+                                couleur jaune
+                          sinon
+                                couleur rouge
+                        * */
+                    }
+                    //Dès que la taille est plus grand que ce qui devait être ecrit, on passe au rouge
+                    else
+                    {
+                        //couleur rouge
+                    }
+
+
+                    /*if(     Files.stringsParagraphe[Files.positionMots].equals(Files.chaineReelementTaper[Files.positionMots])
+                            ||
+                            Files.chaineReelementTaper[Files.positionMots].equals(""))*/
+
+                    /*if(sousChaineATaper.equals((Files.chaineReelementTaper[Files.positionMots]))    )
+                    {
+                        gestionArrierePlanMotCorrect(textArea2, c, yellowBackground);
+                    }*/
+
+
+                    /*if(!sousChaineATaper.equals((Files.chaineReelementTaper[Files.positionMots]))    )
+                    {
+                        gestionArrierePlanMotIncorrect(textArea2, c, redBackground);
+                    }*/
+
+
+                    /*if(             Files.positionMots < Files.stringsParagraphe.length &&
+                                    !(Files.chaineReelementTaper[Files.positionMots].equals(Files.stringsParagraphe[Files.positionMots]))   )*/
+
+                    /*if(             Files.positionMots < Files.stringsParagraphe.length &&
+                            !(Files.chaineReelementTaper[Files.positionMots].equals(sousChaineATaper))   )
+                    {
+                        //Mettre au rouge
+                        //System.out.println("LES CHAINES NE SONT PAS PAREILS...");
+                        gestionArrierePlanMotIncorrect(textArea2, redBackground);
+                    }*/
+            });
     }
 
     /*On ignore le char ayant le code ascci codeAscciCharAIgnore*/
@@ -143,8 +192,7 @@ public class InterfacePrincipale extends Application {
                 textArea1.deleteText(caretPosition -1, caretPosition);
             }
         }
-
-        if (caretPosition <= 2 && caretPosition >=0)
+        else if (caretPosition <= 2 && caretPosition >=0)
         {
             String text = textArea1.getText();
             char avantDernierChar = text.charAt(caretPosition-1);
@@ -154,6 +202,10 @@ public class InterfacePrincipale extends Application {
                 textArea1.insertText(caretPosition -1, "");
                 textArea1.deleteText(caretPosition-1, caretPosition);
             }
+        }
+        else if (caretPosition < 0)
+        {
+            System.out.println("Vous ne pouvez pas retourner en arrierre");
         }
     }
 
@@ -176,9 +228,39 @@ public class InterfacePrincipale extends Application {
 
     }
 
-    public void gestionArrierePlanMotIncorrect()
+    //Arriere plan rouge pour les mots incorrects
+    public void gestionArrierePlanMotIncorrect(InlineCssTextArea  textArea2, char c, String redBackground)
     {
-        //int i = taillesDesMots[0];
+        if(Integer.compare(c, ESPACE) == 0)
+        {
+            debutColorationRouge   =   debutColorationRouge     +      taillesDesMots[Files.positionMots]+1;
+            finColorationRouge      =   debutColorationRouge     +      taillesDesMots[Files.positionMots +1];
+            textArea2.setStyle(debutColorationJaune, finColorationJaune, redBackground);
+            System.out.println("Le mot reelement taper est : " +Files.chaineReelementTaper[Files.positionMots]);
+            Files.positionMots++;
+            if(Files.positionMots == Files.stringsParagraphe.length-1)
+            {
+                System.out.println("Limite des mots est atteint !!");
+            }
+        }
+    }
+
+    //Arriere plan jaune pour mot à taper et qui est correct
+    public void gestionArrierePlanMotCorrect(InlineCssTextArea  textArea2, char c, String yellowBackground)
+    {
+        if(Integer.compare(c, ESPACE) == 0)
+        {
+            //ignorerEntree(textArea1, c, 32, avantDernierChar);
+            debutColorationJaune    =   debutColorationJaune     +      taillesDesMots[Files.positionMots]+1;
+            finColorationJaune      =   debutColorationJaune     +      taillesDesMots[Files.positionMots +1];
+            textArea2.setStyle(debutColorationJaune, finColorationJaune, yellowBackground);
+            System.out.println("Le mot reelement taper est : " +Files.chaineReelementTaper[Files.positionMots]);
+            Files.positionMots++;
+            if(Files.positionMots == Files.stringsParagraphe.length-1)
+            {
+                System.out.println("Limite des mots est atteint !!");
+            }
+        }
     }
 
 
