@@ -1,38 +1,24 @@
 package cpoo.jeu_dactylo.ig;
-
 import cpoo.jeu_dactylo.constantes.*;
-import javafx.geometry.Insets;
-import javafx.scene.control.IndexRange;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputControl;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.paint.*;
 import org.fxmisc.richtext.InlineCssTextArea;
-import org.fxmisc.richtext.StyleClassedTextArea;
-import org.fxmisc.richtext.StyledTextArea;
+import org.fxmisc.richtext.*;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
 import cpoo.jeu_dactylo.files.*;
-import javafx.scene.paint.Color;
-import org.fxmisc.richtext.model.StyleSpan;
-import org.fxmisc.richtext.model.StyleSpans;
 
 import java.net.URL;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 
 public class InterfacePrincipale extends Application {
 
     public int postionDebut;
     public int postionFin;
+    public static int [] taillesDesMots = Files.stockerTaillesMots();
+    public static int debutColorationJaune = 0;
+    public static int finColorationJaune = 0;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -42,7 +28,6 @@ public class InterfacePrincipale extends Application {
 
             StyleClassedTextArea textArea1 = new StyleClassedTextArea();
             InlineCssTextArea textArea2 = new InlineCssTextArea(Paragraphes.PARAGRAPHE_1);
-
             //textArea1.setStyle("-fx-font-size: 20px; -fx-background-color: white; -fx-text-fill: red");
             //textArea2.setStyle("-fx-font-size: 20px; -fx-background-color: gray");
             textArea1.setId("textformes1");
@@ -56,11 +41,7 @@ public class InterfacePrincipale extends Application {
             textArea1.setWrapText(true);
             textArea2.setWrapText(true);
 
-            String yellowBackground = "-rtfx-background-color: yellow;";
-            textArea2.setStyle(0, 9, yellowBackground);
-            textArea2.setStyle(45, 70, yellowBackground);
-            textArea2.setStyle(90, 100, "-fx-fill : red;");
-
+            gestionArrierePlanTexteCorrecte(textArea1, textArea2);
 
             root.getChildren().addAll(textArea1, textArea2);
             Scene scene = new Scene(root, 900, 600);
@@ -84,7 +65,6 @@ public class InterfacePrincipale extends Application {
 
     }
 
-    //public void actionSupprimerCaractere()
     public void actionSupprimerCaractere()
     {
 
@@ -96,46 +76,39 @@ public class InterfacePrincipale extends Application {
     }
 
 
+    public void gestionArrierePlanTexteCorrecte(StyleClassedTextArea textArea1, InlineCssTextArea textArea2)
+    {
+        int[] k ={0};
+        String yellowBackground = "-rtfx-background-color: yellow";
+        debutColorationJaune =0;
+        finColorationJaune = taillesDesMots[0];
+        textArea2.setStyle(debutColorationJaune, finColorationJaune, yellowBackground);
+        int i = 0;
+        textArea1.setOnKeyTyped(e ->
+        {
+            char c = e.getCharacter().charAt(0);
+            if(Integer.compare(c, 32) == 0)
+            {
+                debutColorationJaune    =   debutColorationJaune     +      taillesDesMots[k[0]]+1;
+                finColorationJaune      =   debutColorationJaune     +      taillesDesMots[k[0] +1];
+                textArea2.setStyle(debutColorationJaune, finColorationJaune, yellowBackground);
+                k[0]++;
+                if(k[0] == Files.stringsParagraphe.length-1)
+                {
+                    System.out.println("Limite des mots est atteint !!");
+                }
+            }
+        });
+    }
+
+    public void gestionArrierePlanMotIncorrect()
+    {
+        //int i = taillesDesMots[0];
+    }
+
+
     public static void main(String[] args) {
+        //System.out.println("la tailles est : " +taillesDesMots[6]);
         Application.launch(args);
     }
 }
-
-
-
-          /*int start = textArea2.getSelection().getStart();
-            int end = textArea2.getSelection().getEnd();
-
-            //textArea1.setOnKeyPressed((e) ->action(e));
-
-            textArea1.textProperty().addListener(
-                    (observable, ancienValeur, nouvelleValeur)->
-                    {
-                        System.out.println(observable.getValue());
-                        //System.out.println(observable.);
-                        if (nouvelleValeur.length() < ancienValeur.length()) {
-                            System.out.println("Un caractère a été supprimé !");
-                        }
-                        else
-                        {
-                            System.out.println("Un caractère est ajouté !");
-                        }
-                    }
-            );
-            textArea1.setOnInputMethodTextChanged(event -> {
-                System.out.println("Du texte a été entré dans la zone de texte");
-            });
-
-            //Important recuperer les elements caractère par caractère
-            textArea1.setOnKeyTyped(e ->
-                    {
-                        char entree = 13;
-                        if( (Character.compare(entree, ((e.getCharacter()).charAt(0)))) == 0 )
-                        {
-                            System.out.println("entree ......");
-                        }
-                    });
-
-            textArea1.setOnInputMethodTextChanged(event -> {
-                System.out.println("Du texte a été entré dans la zone de texte");
-            });*/

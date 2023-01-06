@@ -2,6 +2,8 @@ package cpoo.jeu_dactylo.constantes;
 
 public class Paragraphes {
 
+
+    //public static int compteurEspace = 0;
     public static final String PARAGRAPHE_1 =
             "Un langage de programmation est une notation conventionnelle destinée à formuler des algorithmes et produire des programmes informatiques qui les appliquent D'une manière similaire à une langue naturelle un langage";
 

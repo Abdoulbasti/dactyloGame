@@ -12,7 +12,7 @@ public class Files {
     final static int   MAX_TAILLE_FILLE_SECONDAIRE = 40;
     public static int positionMots = 0; //La position de depart doit être 0
 
-    public static String [] stringsParagraphe = Paragraphes.PARAGRAPHE_2.split(" ");
+    public static String [] stringsParagraphe = Paragraphes.PARAGRAPHE_1.split(" ");
 
     /*Ceci contient les elements reelement taper par l'utilisateur chacun à la position corespondant au element qui est censé être taper
     * Cela va nous faciité la comparaison entre les 2 chaines stringsParagraphe[i] et chaineReelementTaper[i] et de faire la mise a jour des erreurs sur l'ecran.
@@ -20,16 +20,15 @@ public class Files {
     public static String [] chaineReelementTaper = new String[stringsParagraphe.length];
 
     //Stocke la taille de chaque de chaque mot à sa position
-    final static int [] taillesMots = new int[stringsParagraphe.length];
+    public final static int [] taillesMots = new int[stringsParagraphe.length];
 
     public static ArrayDeque<String> filePremiere = new ArrayDeque<>(MAX_TAILLE_FILLE_PREMIERE);
     public static ArrayDeque<String> fileSecondaire = new ArrayDeque<>(MAX_TAILLE_FILLE_SECONDAIRE);
-    //LesFiles queue = new LesFiles();
-
-    //final static int numeroEspace =
 
     //Tableau contenat les surplus de chaque qui est censé être taper
     public static String[] overSizeTableaux = new String[stringsParagraphe.length];
+
+    public static int espaceCompteur = 0;
 
     public static void main(String[] args) {
         remplissagePremiereFile(filePremiere);
@@ -169,13 +168,14 @@ public class Files {
 
 
     //Test ok
-    public static void stockerTaillesMots()
+    public static int[] stockerTaillesMots()
     {
 
         for( int i = 0; i<stringsParagraphe.length ; i++)
         {
             taillesMots[i] = stringsParagraphe[i].length();
         }
+        return taillesMots;
     }
 
 
@@ -191,7 +191,6 @@ public class Files {
     {
         chaineReelementTaper[indiceString] = chaineReelementTaper[indiceString].substring(0, chaineReelementTaper[indiceString].length() - 1);
     }
-
 
     //test ok
     public static void initialiserTableauxString(String[] tab)
