@@ -1,5 +1,6 @@
 package cpoo.jeu_dactylo.ig;
 import cpoo.jeu_dactylo.constantes.*;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import org.fxmisc.richtext.InlineCssTextArea;
 import org.fxmisc.richtext.*;
@@ -79,16 +80,24 @@ public class InterfacePrincipale extends Application {
     public void gestionArrierePlanTexteCorrecte(StyleClassedTextArea textArea1, InlineCssTextArea textArea2)
     {
         int[] k ={0};
+        int i = 0;
         String yellowBackground = "-rtfx-background-color: yellow";
         debutColorationJaune =0;
         finColorationJaune = taillesDesMots[0];
         textArea2.setStyle(debutColorationJaune, finColorationJaune, yellowBackground);
-        int i = 0;
+
         textArea1.setOnKeyTyped(e ->
         {
-            char c = e.getCharacter().charAt(0);
+            String s = e.getCharacter();    char c = s.charAt(0);
+            //Récupération de la position du curseur
+            int caretPosition = textArea1.getCaretPosition();
+
+
+            ignorerCaractereENTREE(textArea1,c, 13);
+            ignorerCaractereESPACE(textArea1, c, 32,caretPosition);
             if(Integer.compare(c, 32) == 0)
             {
+                //ignorerEntree(textArea1, c, 32, avantDernierChar);
                 debutColorationJaune    =   debutColorationJaune     +      taillesDesMots[k[0]]+1;
                 finColorationJaune      =   debutColorationJaune     +      taillesDesMots[k[0] +1];
                 textArea2.setStyle(debutColorationJaune, finColorationJaune, yellowBackground);
@@ -99,6 +108,72 @@ public class InterfacePrincipale extends Application {
                 }
             }
         });
+    }
+
+    /*On ignore le char ayant le code ascci codeAscciCharAIgnore*/
+    //test ok
+    public void ignorerCaractereENTREE(StyleClassedTextArea textArea1, char c,  int codeAscciCharAIgnore)
+    {
+
+        if(Integer.compare(c, codeAscciCharAIgnore) == 0)
+        {
+            //Récupération de la position du curseur
+            int caretPosition = textArea1.getCaretPosition();
+            // Insertion du nouveau caractère à la position du curseur
+            textArea1.insertText(caretPosition-1, "");
+            textArea1.deleteText(caretPosition -1, caretPosition);
+            //System.out.println("pos est : " +caretPosition);
+        }
+
+    }
+
+    //Test ok
+    public void ignorerCaractereESPACE(StyleClassedTextArea textArea1, char c,  int codeAscciCharAIgnore , int caretPosition)
+    {
+        if(caretPosition >=2 )
+        {
+            String text = textArea1.getText();
+            char avantDernierChar = text.charAt(caretPosition-2);
+
+            //Verifer que le qu'il 2 espace successive...
+            if(Integer.compare(c, codeAscciCharAIgnore) == 0 && Integer.compare(avantDernierChar, codeAscciCharAIgnore) == 0)
+            {
+               // System.out.println("on 2 espace qui se suivent...");
+                textArea1.insertText(caretPosition-1, "");
+                textArea1.deleteText(caretPosition -1, caretPosition);
+            }
+        }
+
+        if (caretPosition <= 2 && caretPosition >=0)
+        {
+            String text = textArea1.getText();
+            char avantDernierChar = text.charAt(caretPosition-1);
+
+            if(Character.toString(text.charAt(0)).equals(" "))
+            {
+                textArea1.insertText(caretPosition -1, "");
+                textArea1.deleteText(caretPosition-1, caretPosition);
+            }
+        }
+    }
+
+    public void ignorerCaractereEFFACE()
+    {
+
+    }
+
+
+
+    /*Empêcher de faire */
+    public void espaceUneFois()
+    {
+
+    }
+
+
+    void ignorerCertainCaractere()
+    {
+
     }
 
     public void gestionArrierePlanMotIncorrect()
