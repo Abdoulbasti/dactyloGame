@@ -86,10 +86,10 @@ public class InterfacePrincipale extends Application {
     public void gestionArrierePlanTextes(StyleClassedTextArea textArea1, InlineCssTextArea textArea2)
     {
 
-            String redBackground = "-rtfx-background-color: red";
+            /*String redBackground = "-rtfx-background-color: red";
             debutColorationRouge =0;
             finColorationRouge = taillesDesMots[0];
-            textArea2.setStyle(debutColorationJaune, finColorationJaune, redBackground);
+            textArea2.setStyle(debutColorationJaune, finColorationJaune, redBackground);*/
             String yellowBackground = "-rtfx-background-color: yellow";
             debutColorationJaune =0;
             finColorationJaune = taillesDesMots[0];
@@ -101,41 +101,38 @@ public class InterfacePrincipale extends Application {
                 String s = e.getCharacter();    char c = s.charAt(0);
                 String chaine = textArea1.getText();
                 int positionCurseur = textArea1.getCaretPosition();
-
                 if (Integer.compare(c, RETOUR) == 0) {
                     textArea1.deletePreviousChar();
                 }
-
                 if(positionCurseur == 1)
                 {
                     if (s.equals(" ")) {
                         textArea1.deletePreviousChar();
                     }
                 }
-
                 if(positionCurseur >= 2)
                 {
                     char charAtPosAnterieur = chaine.charAt(positionCurseur-2);
                     if(Integer.compare(charAtPosAnterieur, ESPACE) == 0)
                     {
-                        //System.out.println("TEST...");
                         if(s.equals(" ")){
                             textArea1.deletePreviousChar();
                             e.consume();//empechement de se propager
+
+                            System.out.println("Test...");
                         }
                     }
-
                 }
 
+                /*if(Integer.compare(c, ESPACE) == 0)
+                {
+
+                }*/
+
                 //AJOUT DU CARACTERE
-                if(Files.positionMots < Files.stringsParagraphe.length &&
+                /*if(Files.positionMots < Files.stringsParagraphe.length &&
                         Integer.compare(c, RETOUR)      !=0)
                 {
-                    /*if(Integer.compare(c, ESPACE)      !=0)
-                    {
-                        if()
-                    }*/
-
                     if(Integer.compare(c, SUPPRIMER) ==0)
                     {
                         Files.retirerCaractere(Files.positionMots);
@@ -146,9 +143,7 @@ public class InterfacePrincipale extends Application {
                         Files.ajouterCaractere(Files.positionMots, c);
                         System.out.println(Files.chaineReelementTaper[Files.positionMots]);
                     }
-                    //System.out.println("TEST...");
-                    //Files.ajouterCaractere(Files.positionMots, c);
-                }
+                }*/
             });
     }
 
